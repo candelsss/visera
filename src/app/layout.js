@@ -2,6 +2,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import { Header } from "@/components/header/Header";
 import { ThemeProvider } from "@/components/theme/ThemeProvider";
 import "./globals.css";
+import { Footer } from "@/components/footer/Footer";
 
 // Se ejecuta ANTES de que React pinte nada, directo en el <head>.
 // Por defecto el tema es "dark" salvo que el usuario ya haya elegido "light"
@@ -35,7 +36,11 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" className={`${geistSans.variable} ${geistMono.variable}`}>
+    <html
+      lang="en"
+      className={`${geistSans.variable} ${geistMono.variable}`}
+      suppressHydrationWarning
+    >
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
       </head>
@@ -43,6 +48,7 @@ export default function RootLayout({ children }) {
         <ThemeProvider>
           <Header />
           {children}
+          <Footer />
         </ThemeProvider>
       </body>
     </html>

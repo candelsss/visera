@@ -1,0 +1,39 @@
+
+.servicios-grid{
+    display:flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.name{
+    font-size:20px;
+    text-decoration: underline;
+    transition: font-size 0.4s ease;
+}
+
+
+.description{
+    font-size: 24px;
+    line-height: 1;
+    font-weight: 400;
+    white-space: pre-line;
+    transition: font-size 0.4s ease;
+}
+
+.services{
+    font-size: 20px;
+    color: var(--black);
+    transition: font-size 0.4s ease;
+}
+
+[data-theme="light"] .name {
+    font-size: 12px;
+}
+
+[data-theme="light"] .description {
+    font-size: 14px;
+}
+
+[data-theme="light"] .services {
+    font-size: 12px;
+}

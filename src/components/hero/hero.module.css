@@ -3,13 +3,29 @@
   flex: 1;
   flex-direction: column;
   justify-content: space-between;
-
+  position: relative;
+  isolation: isolate;
   font-family: var(--font-geist-sans);
   background-color: var(--background);
   color: var(--foreground);
   transition: background-color 0.4s ease, color 0.4s ease;
 }
 
+
+.vector{
+  width: clamp(280px, 44vw, 844px);
+  position: absolute;
+  top: 48%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: -1;
+}
+
+.vector img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
 
 .intro{
   padding: 1rem;
@@ -28,14 +44,15 @@
 
 .images{
   display: flex;
+  justify-content: center;
   flex-direction: row;
   gap: 1.5rem;
   transition: gap 0.4s ease;
 }
 
 .img{
-  width: 250px;
-  height: 300px;
+  width: 263px;
+  height: 307px;
   background-color: rgb(109, 109, 109);
   flex-shrink: 0;
   transition: width 0.4s ease, height 0.4s ease;
@@ -58,7 +75,7 @@
    De momento dejamos solo 1 a tamaño protagonista — es el hueco donde
    más adelante irá el slider con scroll horizontal. */
 @media (max-width: 640px) {
-  
+
   [data-theme="light"] .img:nth-child(n + 2) {
     display: none;
   }
