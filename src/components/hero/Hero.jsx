@@ -1,6 +1,5 @@
 import styles from "./hero.module.css";
 
-
 const projects = [
   {
     title: "HECTOR",
