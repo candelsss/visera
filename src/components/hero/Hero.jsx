@@ -50,6 +50,8 @@ export const Hero = ({ children }) => {
           />
         ))}
       </div>
+
+      <p className={styles.tagline}>Hacemos brillar tu marca</p>
     </div>
   );
 };
