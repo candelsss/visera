@@ -14,7 +14,9 @@
 }
 
 [data-theme="light"] .page {
-  --img-h: min(clamp(748px, 6.41vw + 724px, 847px), calc(100dvh - 90px));
+  /* 90px = hueco para el header + un par de líneas de texto.
+     60px = hueco para el footer (position: fixed, no cuenta en el flujo). */
+  --img-h: min(clamp(748px, 6.41vw + 724px, 847px), calc(100dvh - 90px - 60px));
 }
 
 
@@ -42,13 +44,13 @@
   display:flex;
   flex-direction: column;
   gap: 1rem;
-  transition: padding-bottom 0.4s ease;
+  transition: padding-bottom 0.7s ease;
 }
 
 .introP {
   font-size: 1rem;
   line-height: 1;
-  transition: font-size 0.4s ease;
+  transition: font-size 0.7s ease;
 }
 
 /* Tamaño imagenes */
@@ -58,11 +60,11 @@
   position: absolute;
   left: 0;
   right: 0;
-  bottom: 1.5rem;
+  bottom: 2.7rem;
   justify-content: center;
   flex-direction: row;
   gap: 0.7rem;
-  transition: gap 0.4s ease;
+  transition: gap 0.7s ease;
 }
 
 .img{
