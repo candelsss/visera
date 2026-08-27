@@ -10,13 +10,13 @@
   background-color: var(--background);
   color: var(--foreground);
   transition: background-color 0.4s ease, color 0.4s ease;
-  --img-h: clamp(307px, 4.72vw + 289.3px, 380px);
+  --img-h: clamp(330px, 4.72vw + 289.3px, 380px);
 }
 
 [data-theme="light"] .page {
   /* 90px = hueco para el header + un par de líneas de texto.
      60px = hueco para el footer (position: fixed, no cuenta en el flujo). */
-  --img-h: min(clamp(748px, 6.41vw + 724px, 847px), calc(100dvh - 90px - 60px));
+  --img-h: min(clamp(1000px, 6.47vw + 975.74px, 1100px), calc(100dvh - 120px));
 }
 
 
@@ -65,14 +65,14 @@
   left: 0;
   right: 0;
   bottom: 2.7rem;
-  justify-content: center;
   flex-direction: row;
   gap: 0.7rem;
-  transition: gap 0.7s ease;
+  /* El transform lo controla el JS del carrusel fotograma a fotograma;
+     una transition aquí competiría con eso y se vería a tirones. */
 }
 
 .img{
-  width: clamp(280px, 5.83vw + 168.15px, 270px);
+  width: clamp(240px, 5.83vw + 168.15px, 270px);
   height: var(--img-h);
   object-fit: cover;
   background-color: rgb(109, 109, 109);
@@ -94,7 +94,7 @@
      pero nunca más alto que el viewport menos hueco para el header
      y un par de líneas del texto. La altura sale de --img-h (definida
      en .page), así el padding del scroll de .intro va siempre sincronizado. */
-  width: clamp(580px, 4.66vw + 551.5px, 641px);
+  width: clamp(560px, 4.66vw + 551.5px, 641px);
 }
 
 .tagline {
@@ -113,18 +113,23 @@
   transform: translate(-50%, -50%) scale(0);
   transition: opacity 0.7s ease, transform 0.7s ease;
   text-shadow:
-    0 0 2px #fff,
-    0 0 2px #fff,
     0 0 4px #fff,
     0 0 4px #fff,
-    0 0 8px #fff,
-    0 0 8px #fff,
-    0 0 16px #fff,
-    0 0 16px #fff,
-    0 0 28px #fff,
-    0 0 28px #fff,
-    0 0 45px #fff,
-    0 0 45px #fff;
+    0 0 4px #fff,
+    0 0 10px #fff,
+    0 0 10px #fff,
+    0 0 10px #fff,
+    0 0 20px #fff,
+    0 0 20px #fff,
+    0 0 20px #fff,
+    0 0 35px #fff,
+    0 0 35px #fff,
+    0 0 35px #fff,
+    0 0 55px #fff,
+    0 0 55px #fff,
+    0 0 55px #fff,
+    0 0 80px #fff,
+    0 0 80px #fff;
 }
 
 [data-theme="light"] .tagline {
