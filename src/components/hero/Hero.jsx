@@ -59,15 +59,20 @@ export const Hero = ({ children }) => {
 
     const paint = () => {
       const { imgWidth, step } = getMetrics();
+      // Se centra siempre sobre la copia del MEDIO de las tres que se
+      // renderizan (ver más abajo), nunca sobre la primera: así hay
+      // siempre una copia entera de sobra a cada lado, y no se ve
+      // ningún hueco vacío al principio ni cada vez que da la vuelta.
+      const displayIndex = projects.length + indexRef.current;
       const offset =
-        el.clientWidth / 2 - imgWidth / 2 - indexRef.current * step;
+        el.clientWidth / 2 - imgWidth / 2 - displayIndex * step;
       el.style.transform = `translateX(${offset}px)`;
     };
 
     // Carrusel automático e infinito, en claro y en oscuro. La lista
-    // de imágenes está duplicada (ver el render más abajo), así que al
-    // recorrer exactamente un set completo (6 imágenes) y volver a 0
-    // no se nota el salto.
+    // de imágenes está triplicada (ver el render más abajo), así que
+    // al recorrer exactamente un set completo (6 imágenes) y volver a
+    // 0 no se nota el salto.
     let lastTs = null;
 
     const tick = (ts) => {
@@ -85,6 +90,7 @@ export const Hero = ({ children }) => {
       rafRef.current = requestAnimationFrame(tick);
     };
 
+    paint(); // posición inicial, antes del primer fotograma
     rafRef.current = requestAnimationFrame(tick);
     return () => {
       if (rafRef.current) cancelAnimationFrame(rafRef.current);
@@ -100,7 +106,7 @@ export const Hero = ({ children }) => {
       </div>
 
       <div className={styles.images} ref={imagesRef}>
-        {[...projects, ...projects].map((project, i) => (
+        {[...projects, ...projects, ...projects].map((project, i) => (
           <img
             key={`${project.title}-${i}`}
             className={styles.img}

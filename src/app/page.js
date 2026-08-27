@@ -1,8 +1,8 @@
-import { Hero, IntroP } from "@/components/hero/Hero";
+import { IntroP } from "@/components/hero/Hero";
 
 export default function Home() {
   return (
-    <Hero>
+    <>
       <IntroP>
         Visera es un estudio creativo independiente con la misión de aportar valor real y tangible a través <br/> de ideas frescas, diseños que conectan y campañas que impactan.
       </IntroP>
@@ -15,6 +15,6 @@ export default function Home() {
       <IntroP>
         Somos un estudio creativo que nace para hacer brillar tu marca.
       </IntroP>
-    </Hero>
+    </>
   );
 }
