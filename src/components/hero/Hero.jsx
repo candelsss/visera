@@ -5,28 +5,33 @@ import styles from "./hero.module.css";
 
 const projects = [
   {
-    title: "HECTOR",
-    image: "/img/hector.png",
+    title: "",
+    image: "/img/visera-project-1.png",
   },
   {
     title: "Spanish Mafia",
-    image: "/img/spanish-mafia.png",
+    image: "/img/visera-project-2.png",
   },
   {
     title: "una vioska.",
-    image: "/img/una-vioska.png",
+    image: "/img/visera-project-3.png",
   },
   {
     title: "La Mesita",
-    image: "/img/spanish-mafia.png",
+    image: "/img/visera-project-4.png",
   },
   {
     title: "LITERAL",
-    image: "/img/hector.png",
+    image: "/img/visera-project-5.png",
   },
   {
+    title: "una vioska",
+    image: "/img/visera-project-6.png",
+  },
+
+  {
     title: "una vioska. 2",
-    image: "/img/una-vioska.png",
+    image: "/img/visera-project-7.png",
   },
 ];
 
