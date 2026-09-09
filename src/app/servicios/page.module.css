@@ -21,7 +21,7 @@
 }
 
 .services{
-    font-size: 1.1rem;
+    font-size: 1rem;
     color: var(--foreground);
     transition: font-size 0.4s ease;
 }

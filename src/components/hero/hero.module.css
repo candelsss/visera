@@ -66,16 +66,21 @@
   right: 0;
   bottom: 2.7rem;
   flex-direction: row;
-  gap: 1rem;
+  /* Ya no hay gap: el "hueco" entre imágenes lo genera el padding de
+     cada .img (mismo tamaño en todas = hueco siempre constante,
+     a diferencia de las franjas irregulares que da object-fit:contain
+     por sí solo según la proporción de cada foto). */
   /* El transform lo controla el JS del carrusel fotograma a fotograma;
      una transition aquí competiría con eso y se vería a tirones. */
 }
 
 .img{
-  width: clamp(240px, 5.83vw + 168.15px, 270px);
+  /* Proporción ajustada a las fotos reales (1300x2200 ≈ 0.59). */
+  width: clamp(195px, 1.94vw + 187.72px, 225px);
   height: var(--img-h);
-  object-fit: cover;
-  background-color: rgb(109, 109, 109);
+  padding: 0.5rem;
+  object-fit: contain;
+  background-color: transparent;
   flex-shrink: 0;
   transition: width 0.7s ease, height 0.7s ease;
 }
@@ -95,6 +100,7 @@
      y un par de líneas del texto. La altura sale de --img-h (definida
      en .page), así el padding del scroll de .intro va siempre sincronizado. */
   width: clamp(560px, 4.66vw + 551.5px, 641px);
+  padding: 0.8rem;
 }
 
 .tagline {
