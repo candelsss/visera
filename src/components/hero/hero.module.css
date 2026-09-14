@@ -66,23 +66,29 @@
   right: 0;
   bottom: 2.7rem;
   flex-direction: row;
-  /* Ya no hay gap: el "hueco" entre imágenes lo genera el padding de
-     cada .img (mismo tamaño en todas = hueco siempre constante,
-     a diferencia de las franjas irregulares que da object-fit:contain
-     por sí solo según la proporción de cada foto). */
-  /* El transform lo controla el JS del carrusel fotograma a fotograma;
-     una transition aquí competiría con eso y se vería a tirones. */
+  gap: 1rem;
+  
+}
+
+.imagesContainer{
+  /* El ancho ya NO tiene su propia fórmula: sale directamente de
+     --img-h multiplicado por la proporción exacta de las fotos
+     (303x512px = 0.591796875). Así, pase lo que pase con la altura
+     (el clamp normal o el límite de pantalla en --img-h de modo
+     claro), el ancho la sigue siempre y la proporción nunca se
+     rompe. */
+  height: var(--img-h);
+  width: calc(var(--img-h) * 0.591796875);
+  flex-shrink: 0;
+  transition: width 0.7s ease, height 0.7s ease;
 }
 
 .img{
-  /* Proporción ajustada a las fotos reales (1300x2200 ≈ 0.59). */
-  width: clamp(195px, 1.94vw + 187.72px, 225px);
-  height: var(--img-h);
-  padding: 0.5rem;
+  display: block;
+  width: 100%;
+  height: 100%;
   object-fit: contain;
-  background-color: transparent;
-  flex-shrink: 0;
-  transition: width 0.7s ease, height 0.7s ease;
+  object-position: center;
 }
 
 /* Modo claro: tipografía diminuta + imágenes grandes.
@@ -92,15 +98,6 @@
 [data-theme="light"] .introP {
   font-size: 0.6rem;
   line-height: 1;
-}
-
-[data-theme="light"] .img {
-  /* Fluido entre 375px (mobile: 569x748) y 1920px (desktop: 641x847),
-     pero nunca más alto que el viewport menos hueco para el header
-     y un par de líneas del texto. La altura sale de --img-h (definida
-     en .page), así el padding del scroll de .intro va siempre sincronizado. */
-  width: clamp(560px, 4.66vw + 551.5px, 641px);
-  padding: 0.8rem;
 }
 
 .tagline {

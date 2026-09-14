@@ -112,13 +112,14 @@ export const Hero = ({ children }) => {
 
       <div className={styles.images} ref={imagesRef}>
         {[...projects, ...projects, ...projects].map((project, i) => (
-          <img
-            key={`${project.title}-${i}`}
-            className={styles.img}
-            src={project.image}
-            alt={project.title}
-            style={{ objectPosition: project.objectPosition || "center" }}
-          />
+          <div key={`${project.title}-${i}`} className={styles.imagesContainer}>
+            <img
+              className={styles.img}
+              src={project.image}
+              alt={project.title}
+              style={{ objectPosition: project.objectPosition || "center" }}
+            />
+          </div>
         ))}
       </div>
 
