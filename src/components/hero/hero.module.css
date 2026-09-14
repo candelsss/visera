@@ -47,7 +47,7 @@
 }
 
 .introP {
-  font-size: 1rem;
+  font-size: 1.2rem;
   line-height: 1;
   margin-bottom: 1em;
   transition: font-size 0.7s ease, margin-bottom 0.7s ease;
@@ -107,7 +107,7 @@
   z-index: 2;
   margin: 0;
   font-size: 1.75rem;
-  font-weight: 300;
+  font-weight: 400;
   color: #000;
   text-align: center;
   white-space: nowrap;
@@ -131,8 +131,8 @@
     0 0 55px #fff,
     0 0 55px #fff,
     0 0 55px #fff,
-    0 0 80px #fff,
-    0 0 80px #fff;
+    0 0 400px #fff,
+    0 0 500px #fff;
 }
 
 [data-theme="light"] .tagline {
