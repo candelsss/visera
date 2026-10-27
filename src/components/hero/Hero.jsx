@@ -107,7 +107,7 @@ export const Hero = ({ children }) => {
       <div className={styles.intro}>{children}</div>
 
       <div className={styles.vector}>
-        <img src="/img/vector.webp" alt="visera" />
+        <img src="/img/vector.webp" alt="visera" width={1997} height={1031} />
       </div>
 
       <div className={styles.images} ref={imagesRef}>
@@ -117,6 +117,8 @@ export const Hero = ({ children }) => {
               className={styles.img}
               src={project.image}
               alt={project.title}
+              width={303}
+              height={512}
               style={{ objectPosition: project.objectPosition || "center" }}
             />
           </div>

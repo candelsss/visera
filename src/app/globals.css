@@ -24,7 +24,8 @@ html {
 /* Fonts */
 @font-face {
   font-family: 'Uncut Sans';
-  src: url('/fonts/UncutaSans.woff2') format('woff2');
+  src: url('/fonts/Uncut-Sans-Variable.ttf') format('truetype');
+  font-display: swap;
 }
 html,
 body {
