@@ -82,17 +82,17 @@ export const metadata = {
     locale: "es_ES",
     url: SITE_URL,
     siteName: "Visera",
-    title: "Visera — Estudio creativo", // TODO (cliente): igual que el title de arriba
+    title: "Visera | Estudio creativo", // TODO (cliente): igual que el title de arriba
     description:
       "Visera es un estudio creativo independiente que aporta valor real y tangible a las marcas.", // TODO (cliente)
     images: [
       {
         // TODO (cliente): imagen de portada para compartir, 1200x630px,
         // formato .jpg o .png, colocarla en /public/img/og-cover.jpg
-        url: "/img/og-cover.jpg",
+        url: "/img/visera-estudio-creativo.webp",
         width: 1200,
         height: 630,
-        alt: "Visera — Estudio creativo",
+        alt: "Visera | Estudio creativo",
       },
     ],
   },
@@ -100,10 +100,10 @@ export const metadata = {
   // Cómo se ve la card al compartir en Twitter/X.
   twitter: {
     card: "summary_large_image",
-    title: "Visera — Estudio creativo", // TODO (cliente)
+    title: "Visera | Estudio creativo", // TODO (cliente)
     description:
       "Visera es un estudio creativo independiente que aporta valor real y tangible a las marcas.", // TODO (cliente)
-    images: ["/img/og-cover.jpg"], // mismo archivo que openGraph.images
+    images: ["/img/visera-estudio-creativo.webp"], // mismo archivo que openGraph.images
   },
 
   // TODO (cliente): favicon definitivo. De momento usa el que ya hay
