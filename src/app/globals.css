@@ -1,6 +1,6 @@
 :root {
-  --background: #79797B;
-  --foreground: #D9D9D9;
+  --background: #0D0D0D;
+  --foreground: #F2F2F2;
 
   --black: #000000;
   --grey-light: #f2f2f2;
@@ -10,8 +10,8 @@
 }
 
 [data-theme="light"] {
-  --background: #f2f2f2;
-  --foreground: #000000;
+  --background: #F2F2F2;
+  --foreground: #0D0D0D;
   --secondary: #00FFFF;
   color-scheme: light;
 }
@@ -57,6 +57,14 @@ body {
 a {
   color: inherit;
   text-decoration: none;
+}
+
+/* Selección de texto (ratón en desktop, pulsación larga en móvil):
+   fondo cian de marca con texto en negro para que se lea bien encima,
+   tanto en modo oscuro (texto normalmente blanco) como en claro. */
+::selection {
+  background-color: var(--secondary);
+  color: #0D0D0D;
 }
 
 

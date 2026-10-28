@@ -12,14 +12,20 @@ export default function Servicios() {
 
   ];
   return (
-    <div className={style["servicios-grid"]}>
-      {servicios.map((servicio, index) => (
-        <div key={index} className="servicio-item">
-          <p className={style.name}>{servicio.nombre}</p>
-          <p className={style.description}>{servicio.descripcion}</p>
-          <p className={style.services}>Servicios: {servicio.servicios}</p>
-        </div>
-      ))}
-    </div>
+    <>
+      {/* Visualmente oculto: no cambia el diseño, pero le dice a
+          Google de qué trata la página (cada página necesita un h1). */}
+      <h1 className={style.srOnly}>Servicios | Visera</h1>
+
+      <div className={style["servicios-grid"]}>
+        {servicios.map((servicio, index) => (
+          <div key={index} className="servicio-item">
+            <h2 className={style.name}>{servicio.nombre}</h2>
+            <p className={style.description}>{servicio.descripcion}</p>
+            <p className={style.services}>Servicios: {servicio.servicios}</p>
+          </div>
+        ))}
+      </div>
+    </>
   );
 }

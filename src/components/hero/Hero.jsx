@@ -106,9 +106,11 @@ export const Hero = ({ children }) => {
     <div className={styles.page}>
       <div className={styles.intro}>{children}</div>
 
+      {/* Vector de fondo desactivado de momento — descomentar para volver a mostrarlo.
       <div className={styles.vector}>
         <img src="/img/vector.webp" alt="visera" width={1997} height={1031} />
       </div>
+      */}
 
       <div className={styles.images} ref={imagesRef}>
         {[...projects, ...projects, ...projects].map((project, i) => (

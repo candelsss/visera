@@ -42,11 +42,14 @@
 
 /* variantes */
 .btn--primary {
-  background-color: #171717;
-  color: #fff;
+  /* Invertido respecto a la página, igual que los links del header:
+     fondo oscuro en modo claro, fondo claro en modo oscuro. */
+  background-color: var(--foreground);
+  color: var(--background);
+  transition: opacity 0.15s ease, background-color 0.4s ease, color 0.4s ease;
 }
 .btn--primary:hover:not(:disabled) {
-  background-color: #2b2b2b;
+  opacity: 0.8;
 }
 
 .btn--secondary {

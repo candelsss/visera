@@ -2,15 +2,19 @@
   position: relative;
   display: inline-flex;
   align-items: center;
-  width: 3rem;
-  height: 1.5rem;
-  padding: 0.2rem;
-  border: none;
+  /* Medidas en px (no rem) para que el hueco interior cuadre exacto
+     con el grosor del borde y el círculo no se monte encima. */
+  width: 48px;
+  height: 26px;
+  padding: 4px;
+  /* Invertido respecto a la página, igual que los links del header:
+     track del tono contrario al fondo (claro en oscuro, oscuro en claro). */
+  border: 1px solid var(--background);
   border-radius: 999px;
-  background-color: rgba(0, 0, 0, 0.25);
+  background-color: var(--foreground);
   cursor: pointer;
   flex-shrink: 0;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.4s ease, border-color 0.4s ease;
 }
 
 .switch[data-checked="true"] {
@@ -18,21 +22,20 @@
 
 .thumb {
   display: block;
-  width: 1.35rem;
-  height: 1.35rem;
+  width: 16px;
+  height: 16px;
   border-radius: 50%;
-  background-color: #D9D9D9;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+  background-color: var(--background);
   transform: translateX(0);
-  transition: transform 0.3s ease;
+  transition: transform 0.3s ease, background-color 0.4s ease;
 }
 
 .switch[data-checked="true"] .thumb {
-  transform: translateX(1.25rem);
+  transform: translateX(22px);
 }
 
 .placeholder {
   display: inline-block;
-  width: 3rem;
-  height: 1.75rem;
+  width: 48px;
+  height: 26px;
 }
