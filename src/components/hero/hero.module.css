@@ -100,6 +100,18 @@
   line-height: 1;
 }
 
+/* Mobile: con textos largos (ej. Home, varios párrafos) el espacio
+   reservado normal se queda corto y el scroll no llega a liberar del
+   todo el final del texto por debajo del carrusel. Se añade un margen
+   extra + el hueco del home indicator en iPhone (safe-area-inset). */
+@media (max-width: 640px) {
+  .intro {
+    padding-bottom: calc(
+      var(--img-h) + 6rem + env(safe-area-inset-bottom, 0px)
+    );
+  }
+}
+
 .tagline {
   position: absolute;
   top: 50%;

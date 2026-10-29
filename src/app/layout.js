@@ -45,7 +45,7 @@ export const metadata = {
   // "%s | Visera" hace que cualquier página hija (ej. Servicios)
   // añada su propio título delante automáticamente.
   title: {
-    default: "Visera — Estudio creativo",
+    default: "Visera | Estudio creativo",
     template: "%s | Visera",
   },
 
