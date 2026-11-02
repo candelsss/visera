@@ -52,7 +52,10 @@
    pestaña. */
 .teamMode .intro {
   padding-top: calc(var(--img-h) + 4.5rem);
-  padding-bottom: 1rem;
+  /* Hueco para que el scroll libere el final del texto por encima del
+     footer (position: fixed, no cuenta en el flujo y, si no, tapa la
+     última línea). */
+  padding-bottom: 3rem;
 }
 
 @media (max-width: 640px) {
@@ -60,6 +63,9 @@
     padding-top: calc(
       var(--img-h) + 6rem + env(safe-area-inset-bottom, 0px)
     );
+    /* Más margen todavía en mobile: el equipo son varias líneas y el
+       footer + el "home indicator" se comen más hueco relativo. */
+    padding-bottom: calc(5rem + env(safe-area-inset-bottom, 0px));
   }
 }
 
