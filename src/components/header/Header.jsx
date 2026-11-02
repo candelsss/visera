@@ -4,18 +4,18 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { ThemeToggle } from "@/components/theme/ThemeToggle";
+import { useThemeSweep } from "@/components/theme/ThemeProvider";
 import styles from "./header.module.css";
 
 const NAV_LINKS = [
   { href: "/", label: "Visera." },
   { href: "/servicios", label: "Servicios" },
-  // Equipo: comentado hasta tener el contenido real de esa página.
-  // Descomentar esta línea para reactivar el link.
-  // { href: "/equipo", label: "Equipo" },
+  { href: "/equipo", label: "Equipo" },
 ];
 
 export const Header = () => {
   const pathname = usePathname();
+  const { tick: sweepTick, anchor: sweepAnchor } = useThemeSweep();
   const linkRefs = useRef([]);
   // Posición/ancho de la píldora activa, en píxeles reales dentro del
   // <nav> — se recalcula cada vez que cambia la ruta o el tamaño de
@@ -45,6 +45,11 @@ export const Header = () => {
   return (
     <header className={styles.header}>
       <nav className={styles.nav}>
+        <span
+          key={sweepTick}
+          className={`${styles.navSweep} ${sweepTick > 0 ? styles.sweeping : ""}`}
+          data-anchor={sweepAnchor}
+        />
         <span
           className={styles.pill}
           style={{

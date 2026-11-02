@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import { usePathname } from "next/navigation";
 import styles from "./hero.module.css";
 
 const projects = [
@@ -42,6 +43,13 @@ export const IntroP = ({ children }) => (
 );
 
 export const Hero = ({ children }) => {
+  const pathname = usePathname();
+  // En Equipo el slider sube arriba y el texto baja debajo — se cruzan
+  // (ver hero.module.css .teamMode). El slider sigue anclado por el
+  // lado fijo (arriba aquí, abajo en el resto) para que el cambio de
+  // tamaño claro/oscuro de las imágenes crezca siempre hacia el lado
+  // libre, nunca tape el header ni se solape "hacia atrás".
+  const isTeam = pathname === "/equipo";
   const imagesRef = useRef(null);
   // Posición continua del carrusel, en "número de imagen" (ej. 3.4 =
   // un 40% entre la imagen 3 y la 4) — NO en píxeles. Así, al cambiar
@@ -103,7 +111,7 @@ export const Hero = ({ children }) => {
   }, []);
 
   return (
-    <div className={styles.page}>
+    <div className={`${styles.page} ${isTeam ? styles.teamMode : ""}`}>
       <div className={styles.intro}>{children}</div>
 
       {/* Vector de fondo desactivado de momento — descomentar para volver a mostrarlo.

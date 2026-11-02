@@ -43,7 +43,24 @@
   padding-bottom: calc(var(--img-h) + 4.5rem);
   display:flex;
   flex-direction: column;
-  transition: padding-bottom 0.7s ease;
+  transition: padding-bottom 0.7s ease, padding-top 0.7s ease;
+}
+
+/* Equipo: el slider se ancla arriba y el texto reserva el hueco
+   arriba en vez de abajo — mismo truco que en el resto de páginas,
+   pero volteado, para que texto y slider se crucen al cambiar de
+   pestaña. */
+.teamMode .intro {
+  padding-top: calc(var(--img-h) + 4.5rem);
+  padding-bottom: 1rem;
+}
+
+@media (max-width: 640px) {
+  .teamMode .intro {
+    padding-top: calc(
+      var(--img-h) + 6rem + env(safe-area-inset-bottom, 0px)
+    );
+  }
 }
 
 .introP {
@@ -67,7 +84,16 @@
   bottom: 2.7rem;
   flex-direction: row;
   gap: 1rem;
-  
+  transition: bottom 0.7s ease;
+}
+
+/* Equipo: mismo elemento, anclado por el borde de arriba en vez del
+   de abajo (sigue siendo la propiedad "bottom" la que se anima, para
+   que el cruce con el texto sea un único movimiento suave). Al estar
+   fijo arriba, si las imágenes crecen en modo claro lo hacen hacia
+   abajo — nunca tapan el header. */
+.teamMode .images {
+  bottom: calc(100% - var(--img-h) - 2.7rem);
 }
 
 .imagesContainer{

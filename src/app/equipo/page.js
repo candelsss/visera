@@ -1,17 +1,26 @@
 import { IntroP } from "@/components/hero/Hero";
 import style from "./page.module.css";
 
-// TODO (cliente): contenido real del equipo — quién sois, roles,
-// lo que querías contar aquí. De momento es un texto de relleno
-// para que la página y el link del header ya funcionen.
+const TEAM = [
+  { name: "Érika Ávila", role: "Diseño gráfico · Dirección de Arte" },
+  { name: "Candela Fos", role: "Desarrollo web · Diseño UX/UI · SEO" },
+  { name: "María Lacasta", role: "Copywriter · Dirección Creativa" },
+];
+
 export default function Equipo() {
   return (
     <>
       <h1 className={style.srOnly}>Equipo | Visera</h1>
 
-      <IntroP>
-        Somos el equipo detrás de Visera — texto pendiente de contenido real.
-      </IntroP>
+      <IntroP>Debajo de la visera:</IntroP>
+
+      {TEAM.map(({ name, role }) => (
+        <IntroP key={name}>
+          <strong>{name}</strong>
+          <br />
+          <span className={style.role}>{role}</span>
+        </IntroP>
+      ))}
     </>
   );
 }

@@ -1,10 +1,11 @@
 "use client";
 
-import { useTheme } from "./ThemeProvider";
+import { useTheme, useThemeSweep } from "./ThemeProvider";
 import styles from "./themeToggle.module.css";
 
 export const ThemeToggle = () => {
   const { theme, toggleTheme } = useTheme();
+  const { tick: sweepTick, anchor: sweepAnchor } = useThemeSweep();
 
   // Mientras no sepamos el tema real (primer render en cliente), no pintamos
   // nada para no mostrar el estado equivocado un instante.
@@ -24,6 +25,11 @@ export const ThemeToggle = () => {
       className={styles.switch}
       onClick={toggleTheme}
     >
+      <span
+        key={sweepTick}
+        className={`${styles.switchSweep} ${sweepTick > 0 ? styles.sweeping : ""}`}
+        data-anchor={sweepAnchor}
+      />
       <span className={styles.thumb} />
     </button>
   );

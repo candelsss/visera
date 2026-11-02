@@ -1,6 +1,11 @@
 :root {
   --background: #0D0D0D;
   --foreground: #F2F2F2;
+  /* El tono contrario, para el efecto "cortina" del header/toggle al
+     cambiar de tema: la capa de abajo se queda fija en el color que
+     tenía antes mientras la de arriba (--foreground, ya actualizado)
+     la cubre bajando de arriba a abajo. */
+  --foreground-prev: #0D0D0D;
 
   --black: #000000;
   --grey-light: #f2f2f2;
@@ -12,6 +17,7 @@
 [data-theme="light"] {
   --background: #F2F2F2;
   --foreground: #0D0D0D;
+  --foreground-prev: #F2F2F2;
   --secondary: #00FFFF;
   color-scheme: light;
 }

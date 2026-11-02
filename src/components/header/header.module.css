@@ -4,6 +4,8 @@
   justify-content: space-between;
  padding: 1rem 1rem 0 1rem;
   width: 100%;
+  /* Sin fondo propio a propósito: el único color que se ve/anima es
+     el de la barra (.nav) y el del toggle, no el de este contenedor. */
   background: transparent;
   position: relative;
   z-index: 10;
@@ -20,6 +22,58 @@
   align-items: center;
   gap: 0.5rem;
   position: relative;
+  /* La barra entera va del tono contrario al fondo de página (clara
+     en modo oscuro, oscura en modo claro) — mismo criterio invertido
+     que el resto de la UI. Esta es la capa de ABAJO: se queda fija en
+     el color que tenía antes del cambio (--foreground-prev); la capa
+     de arriba (.navSweep, ya con el color nuevo) la cubre bajando de
+     arriba a abajo. */
+  background-color: var(--foreground-prev);
+  border-radius: 8px;
+  padding: 0.25rem;
+}
+
+.navSweep {
+  position: absolute;
+  inset: 0;
+  border-radius: 8px;
+  background-color: var(--foreground);
+  /* transform en vez de clip-path: lo anima el compositor (GPU) en
+     vez de recalcular el recorte en cada frame, así no se entrecorta.
+     Reposo = revelado del todo (así se ve bien si, por lo que sea, no
+     llega a jugar la animación de .sweeping). */
+  transform: scaleY(1);
+  will-change: transform;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Hacia claro "se pone la visera": crece desde arriba hacia abajo.
+   Hacia oscuro "se la quita": crece desde abajo hacia arriba. */
+.navSweep[data-anchor="top"] {
+  transform-origin: top;
+}
+
+.navSweep[data-anchor="bottom"] {
+  transform-origin: bottom;
+}
+
+/* Header.jsx le da un key={tick} a este span, así que React lo
+   desmonta/monta entero en cada cambio de tema — y con él, esta
+   animación arranca siempre desde cero (keyframe "from"), en vez de
+   depender de un requestAnimationFrame que puede retrasarse si el
+   hilo principal anda ocupado con el resto de transiciones del tema. */
+.navSweep.sweeping {
+  animation: navSweepIn 0.6s cubic-bezier(0.65, 0, 0.35, 1) both;
+}
+
+@keyframes navSweepIn {
+  from {
+    transform: scaleY(0);
+  }
+  to {
+    transform: scaleY(1);
+  }
 }
 
 /* La píldora es un único elemento que se desliza por detrás de los
@@ -28,23 +82,30 @@
    suave en vez de un salto de fondo en cada link por separado. */
 .pill {
   position: absolute;
-  top: 0;
+  top: 0.25rem;
+  /* left queda en 0: Header.jsx ya mide offsetLeft de cada link
+     relativo al padding-edge de .nav (incluye el padding de la barra)
+     y lo aplica como transform — sumar aquí otro left duplicaría el
+     hueco. */
   left: 0;
-  height: 100%;
+  height: calc(100% - 0.5rem);
   border-radius: 8px;
-  background-color: var(--foreground);
-  transition: transform 0.3s ease, width 0.3s ease, opacity 0.2s ease;
+  /* Del tono de la página: contrasta contra el fondo de la barra,
+     como un hueco "recortado" dentro de ella. */
+  background-color: var(--background);
+  transition: transform 0.3s ease, width 0.3s ease, opacity 0.2s ease,
+    background-color 0.4s ease;
   pointer-events: none;
-  z-index: 0;
+  z-index: 1;
 }
 
 .link {
   position: relative;
-  z-index: 1;
+  z-index: 2;
   text-decoration: none;
-  /* Por defecto (inactivo): solo texto, sin fondo, color acorde
-     al tema (igual que el resto del texto de la página). */
-  color: var(--foreground);
+  /* Por defecto (inactivo): texto del tono de la página, para leerse
+     sobre el fondo (invertido) de la barra. */
+  color: var(--background);
   background-color: transparent;
   padding: 0.3rem 0.6rem;
   border-radius: 8px;
@@ -59,9 +120,9 @@
 }
 
 .linkActive {
-  /* Activo: el texto toma el tono contrario (--background) para
-     contrastar con la píldora que queda justo detrás. */
-  color: var(--background);
+  /* Activo: vuelve al tono de la barra, para contrastar contra la
+     píldora (que es del tono de la página) que queda detrás. */
+  color: var(--foreground);
 }
 
 .linkActive:hover {

@@ -7,24 +7,62 @@
   width: 48px;
   height: 26px;
   padding: 4px;
-  /* Invertido respecto a la página, igual que los links del header:
-     track del tono contrario al fondo (claro en oscuro, oscuro en claro). */
+  /* Invertido respecto a la página, igual que la barra del header:
+     track del tono contrario al fondo (claro en oscuro, oscuro en claro).
+     Esta es la capa de ABAJO, fija en el color de antes del cambio
+     (--foreground-prev) — la cubre .switchSweep bajando de arriba a
+     abajo con el color nuevo, igual que en la barra del header. */
   border: 1px solid var(--background);
-  border-radius: 999px;
-  background-color: var(--foreground);
+  border-radius: 8px;
+  background-color: var(--foreground-prev);
+  box-sizing: border-box;
   cursor: pointer;
   flex-shrink: 0;
-  transition: background-color 0.4s ease, border-color 0.4s ease;
+  transition: border-color 0.4s ease;
 }
 
-.switch[data-checked="true"] {
+.switchSweep {
+  position: absolute;
+  inset: 0;
+  border-radius: 7px;
+  background-color: var(--foreground);
+  transform: scaleY(1);
+  will-change: transform;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.switchSweep[data-anchor="top"] {
+  transform-origin: top;
+}
+
+.switchSweep[data-anchor="bottom"] {
+  transform-origin: bottom;
+}
+
+/* Mismo truco que en .navSweep: key={tick} en ThemeToggle.jsx
+   remonta este span en cada cambio de tema, reiniciando la animación
+   sin depender de un rAF que podía retrasarse. */
+.switchSweep.sweeping {
+  animation: switchSweepIn 0.6s cubic-bezier(0.65, 0, 0.35, 1) both;
+}
+
+@keyframes switchSweepIn {
+  from {
+    transform: scaleY(0);
+  }
+  to {
+    transform: scaleY(1);
+  }
 }
 
 .thumb {
+  position: relative;
+  z-index: 1;
   display: block;
   width: 16px;
   height: 16px;
-  border-radius: 50%;
+  border-radius: 4px;
   background-color: var(--background);
   transform: translateX(0);
   transition: transform 0.3s ease, background-color 0.4s ease;
