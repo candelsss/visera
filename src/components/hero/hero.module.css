@@ -39,19 +39,31 @@
   height: 100%;
   min-height: 0;
   overflow-y: auto;
+  /* Scroll funcional pero sin barra visible (el gesto de scroll/swipe
+     sigue funcionando igual, solo se oculta el indicador). */
+  scrollbar-width: none;
+  -ms-overflow-style: none;
   padding: 1rem;
   padding-bottom: calc(var(--img-h) + 4.5rem);
   display:flex;
   flex-direction: column;
-  transition: padding-bottom 0.7s ease, padding-top 0.7s ease;
+  transition: padding-bottom 0.7s ease, margin-top 0.7s ease, height 0.7s ease;
 }
 
-/* Equipo: el slider se ancla arriba y el texto reserva el hueco
-   arriba en vez de abajo — mismo truco que en el resto de páginas,
-   pero volteado, para que texto y slider se crucen al cambiar de
-   pestaña. */
+.intro::-webkit-scrollbar {
+  display: none;
+}
+
+/* Equipo: el slider se ancla arriba. Aquí NO usamos padding-top para
+   reservarle el hueco (como en el resto de páginas) porque el padding
+   queda DENTRO de la caja con scroll: el texto, al desplazarse hacia
+   arriba, acaba pasando por detrás del slider en vez de desaparecer
+   por el borde de la pantalla. En su lugar, achicamos la propia caja
+   con margin-top + height, para que el recorte del scroll arranque ya
+   por debajo del slider y el texto nunca llegue a esa franja. */
 .teamMode .intro {
-  padding-top: calc(var(--img-h) + 4.5rem);
+  margin-top: calc(var(--img-h) + 2.7rem);
+  height: calc(100% - var(--img-h) - 2.7rem);
   /* Hueco para que el scroll libere el final del texto por encima del
      footer (position: fixed, no cuenta en el flujo y, si no, tapa la
      última línea). */
@@ -60,9 +72,6 @@
 
 @media (max-width: 640px) {
   .teamMode .intro {
-    padding-top: calc(
-      var(--img-h) + 6rem + env(safe-area-inset-bottom, 0px)
-    );
     /* Más margen todavía en mobile: el equipo son varias líneas y el
        footer + el "home indicator" se comen más hueco relativo. */
     padding-bottom: calc(5rem + env(safe-area-inset-bottom, 0px));
