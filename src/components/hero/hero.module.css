@@ -139,6 +139,12 @@
   flex-direction: row;
   gap: 1rem;
   transition: bottom 0.7s ease;
+  /* Las fotos pintan POR ENCIMA de .intro (para que el texto se vea
+     pasar por detrás al hacer scroll) pero no son interactivas — sin
+     esto, un dedo que empieza el swipe justo sobre una foto (cubren
+     buena parte de la pantalla) no llega a .intro, que es el que de
+     verdad tiene el scroll, y el gesto no hace nada. */
+  pointer-events: none;
 }
 
 /* Equipo: mismo elemento, anclado por el borde de arriba en vez del
