@@ -57,14 +57,12 @@
   height: 100%;
   min-height: 0;
   overflow-y: auto;
-  /* El body de alrededor tiene overflow:hidden (ver globals.css) — en
-     Safari/iOS eso puede hacer que el scroll táctil de esta caja no
-     arranque sin estas dos líneas (el navegador necesita que se le
-     diga explícitamente que el gesto vertical es para hacer scroll
-     aquí dentro, si no, en el móvil real se queda "pegado"). */
-  -webkit-overflow-scrolling: touch;
-  overscroll-behavior: contain;
-  touch-action: pan-y;
+  /* Nada de -webkit-overflow-scrolling / overscroll-behavior / touch-action
+     aquí a propósito: son restos pensados para iOS antiguo y, combinados
+     con elementos position:fixed al lado (el header y el footer), hay
+     casos documentados en los que WebKit se queda bloqueando el scroll
+     en vez de ayudarlo. overflow-y:auto a secas ya scrollea con inercia
+     por defecto en cualquier WebKit moderno. */
   /* Scroll funcional pero sin barra visible (el gesto de scroll/swipe
      sigue funcionando igual, solo se oculta el indicador). */
   scrollbar-width: none;
