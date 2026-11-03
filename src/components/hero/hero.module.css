@@ -86,6 +86,19 @@
   display: none;
 }
 
+/* Clave para que el scroll SIEMPRE funcione cuando hace falta: en un
+   flex container con overflow (este es overflow-y:auto), los hijos
+   directos pueden encogerse por debajo de su contenido real en vez de
+   desbordar (min-height:auto pasa a tratarse como 0). Con poco
+   contenido (como en Home) eso puede bastar para que un párrafo quede
+   comprimido/tapado detrás de las fotos sin que el navegador llegue a
+   registrar scroll real. flex-shrink:0 fuerza a que cada hijo directo
+   ocupe siempre su alto natural, así que si no cabe, desborda de
+   verdad (scrollHeight > clientHeight) y el scroll aparece. */
+.intro > * {
+  flex-shrink: 0;
+}
+
 /* Desktop: el texto no estira línea a línea hasta el borde de la
    pantalla, se queda en la mitad izquierda (deja el resto para el
    slider, que ya flota encima por su cuenta). */
