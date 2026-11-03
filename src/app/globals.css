@@ -24,6 +24,15 @@
 
 html {
   height: 100%;
+  /* Sin esto, Safari/iOS agranda el texto automáticamente cuando lo
+     considera "demasiado pequeño para leerse" (aquí usamos fuentes a
+     propósito pequeñas) — eso descuadra TODOS los cálculos de alto
+     basados en rem (el hueco reservado para las fotos, los paddings...)
+     y hace que el último párrafo quede empujado detrás del slider. No
+     se puede reproducir en el modo responsive de un navegador de
+     escritorio, solo pasa en un iPhone/WebKit real. */
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
 }
 
 
