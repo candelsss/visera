@@ -9,13 +9,10 @@ export default function Home() {
       <h1 className={style.srOnly}>Visera | Estudio creativo en Valencia</h1>
 
       <IntroP>
-        Visera es un estudio creativo independiente con la misión de aportar valor real y tangible a través <br/> de ideas frescas, diseños que conectan y campañas que impactan.
+        Visera es un estudio creativo independiente con la misión de aportar valor real y tangible a las marcas a través de ideas frescas, diseños que conectan y campañas que impactan.
       </IntroP>
       <IntroP>
-        Siempre en busca de una sensación similar al lujo, y un color parecido al brillo.
-      </IntroP>
-      <IntroP>
-        Nuestra filosofía hace match con quienes se calientan bajo el sol, eligen vivir la vida en chanclas y, sobre todo, <br/> quienes se atreven a llevar visera.
+        Nuestra filosofía hace match con quienes apagan el ruido y quienes se encienden al entrar en contacto con el verdadero significado. Pero, sobre todo, con quienes se atreven a llevar visera.
       </IntroP>
       <IntroP>
         Somos un estudio creativo que nace para hacer brillar tu marca.

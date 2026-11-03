@@ -11,6 +11,11 @@
   color: var(--foreground);
   transition: background-color 0.4s ease, color 0.4s ease;
   --img-h: clamp(330px, 4.72vw + 289.3px, 380px);
+  /* El header ahora es fixed (flota encima, transparente) y ya no
+     reserva su propia fila — .page ocupa toda la pantalla. Este valor
+     es la altura real del header (medida), para que el texto reserve
+     el hueco justo debajo en vez de arrancar tapado. */
+  --header-h: 3.25rem;
 }
 
 [data-theme="light"] .page {
@@ -39,31 +44,52 @@
   height: 100%;
   min-height: 0;
   overflow-y: auto;
+  /* El body de alrededor tiene overflow:hidden (ver globals.css) — en
+     Safari/iOS eso puede hacer que el scroll táctil de esta caja no
+     arranque sin estas dos líneas (el navegador necesita que se le
+     diga explícitamente que el gesto vertical es para hacer scroll
+     aquí dentro, si no, en el móvil real se queda "pegado"). */
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+  touch-action: pan-y;
   /* Scroll funcional pero sin barra visible (el gesto de scroll/swipe
      sigue funcionando igual, solo se oculta el indicador). */
   scrollbar-width: none;
   -ms-overflow-style: none;
   padding: 1rem;
+  /* El header flota por encima (fixed, transparente) — la caja de
+     scroll empieza en el borde real de la pantalla para que el texto,
+     al desplazarse, se vea pasar por detrás del hueco transparente del
+     header en vez de cortarse justo en su borde. Este padding-top es
+     solo para que la PRIMERA línea no arranque tapada por él. */
+  padding-top: calc(var(--header-h) + 1rem);
   padding-bottom: calc(var(--img-h) + 4.5rem);
   display:flex;
   flex-direction: column;
-  transition: padding-bottom 0.7s ease, margin-top 0.7s ease, height 0.7s ease;
+  transition: padding-bottom 0.7s ease, padding-top 0.7s ease;
 }
 
 .intro::-webkit-scrollbar {
   display: none;
 }
 
-/* Equipo: el slider se ancla arriba. Aquí NO usamos padding-top para
-   reservarle el hueco (como en el resto de páginas) porque el padding
-   queda DENTRO de la caja con scroll: el texto, al desplazarse hacia
-   arriba, acaba pasando por detrás del slider en vez de desaparecer
-   por el borde de la pantalla. En su lugar, achicamos la propia caja
-   con margin-top + height, para que el recorte del scroll arranque ya
-   por debajo del slider y el texto nunca llegue a esa franja. */
+/* Desktop: el texto no estira línea a línea hasta el borde de la
+   pantalla, se queda en la mitad izquierda (deja el resto para el
+   slider, que ya flota encima por su cuenta). */
+@media (min-width: 1024px) {
+  .intro {
+    width: 50%;
+  }
+}
+
+/* Equipo: el slider se ancla arriba. Mismo criterio que el header: el
+   hueco se reserva con padding-top (DENTRO de la caja con scroll), así
+   que al desplazar el texto hacia arriba se ve pasar por detrás del
+   slider —entre los huecos de las fotos— en vez de cortarse en seco,
+   igual que ya pasa con el header y en Servicios/Home con las fotos
+   de abajo. */
 .teamMode .intro {
-  margin-top: calc(var(--img-h) + 2.7rem);
-  height: calc(100% - var(--img-h) - 2.7rem);
+  padding-top: calc(var(--img-h) + var(--header-h) + 2.6rem);
   /* Hueco para que el scroll libere el final del texto por encima del
      footer (position: fixed, no cuenta en el flujo y, si no, tapa la
      última línea). */
@@ -106,9 +132,11 @@
    de abajo (sigue siendo la propiedad "bottom" la que se anima, para
    que el cruce con el texto sea un único movimiento suave). Al estar
    fijo arriba, si las imágenes crecen en modo claro lo hacen hacia
-   abajo — nunca tapan el header. */
+   abajo — nunca tapan el header. El hueco hasta arriba ahora cuenta
+   la altura real del header (fixed) + un pequeño margen, para que el
+   slider quede justo debajo de él, no detrás. */
 .teamMode .images {
-  bottom: calc(100% - var(--img-h) - 2.7rem);
+  bottom: calc(100% - var(--img-h) - var(--header-h) - 0.8rem);
 }
 
 .imagesContainer{

@@ -5,9 +5,16 @@
  padding: 1rem 1rem 0 1rem;
   width: 100%;
   /* Sin fondo propio a propósito: el único color que se ve/anima es
-     el de la barra (.nav) y el del toggle, no el de este contenedor. */
+     el de la barra (.nav) y el del toggle, no el de este contenedor.
+     Flotante (fixed) en vez de ocupar su propia fila: así el texto de
+     debajo puede seguir viéndose (a través del hueco transparente)
+     mientras hace scroll por detrás, en vez de cortarse justo en el
+     borde de abajo del header. */
   background: transparent;
-  position: relative;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
   z-index: 10;
 }
 
@@ -91,10 +98,12 @@
   height: calc(100% - 0.5rem);
   border-radius: 8px;
   /* Del tono de la página: contrasta contra el fondo de la barra,
-     como un hueco "recortado" dentro de ella. */
+     como un hueco "recortado" dentro de ella. Sin transición de color:
+     la barra ya cambia de golpe con el barrido (.navSweep/.sweeping),
+     así que este hueco tiene que ir sincronizado con ella, no ir
+     difuminándose por su cuenta (se veía gris a medio camino). */
   background-color: var(--background);
-  transition: transform 0.3s ease, width 0.3s ease, opacity 0.2s ease,
-    background-color 0.4s ease;
+  transition: transform 0.3s ease, width 0.3s ease, opacity 0.2s ease;
   pointer-events: none;
   z-index: 1;
 }
@@ -110,7 +119,10 @@
   padding: 0.3rem 0.6rem;
   border-radius: 8px;
   font-size: 0.9rem;
-  transition: opacity 0.15s ease, color 0.4s ease;
+  /* Sin transición en color: tiene que cambiar de golpe, a la vez que
+     la barra (.navSweep), no ir pasando por grises intermedios
+     mientras la barra ya terminó su barrido. */
+  transition: opacity 0.15s ease;
   cursor: pointer;
   font-weight: 900;
 }

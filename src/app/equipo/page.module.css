@@ -10,6 +10,45 @@
   border: 0;
 }
 
+.team {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+/* Mismos tamaños que Servicios (.name/.description/.services): el
+   nombre como el título de un servicio (subrayado), el cargo como su
+   frase de debajo, y la bio como el listado pequeño de "Servicios:". */
+.name {
+  font-size: 1.2rem;
+  font-weight: 400;
+  text-decoration: underline;
+  color: var(--foreground);
+  transition: font-size 0.4s ease;
+}
+
 .role {
-  opacity: 0.6;
+  font-size: 1.4rem;
+  line-height: 1;
+  font-weight: 400;
+  color: var(--foreground);
+  transition: font-size 0.4s ease;
+}
+
+.bio {
+  font-size: 1rem;
+  color: var(--foreground);
+  transition: font-size 0.4s ease;
+}
+
+[data-theme="light"] .name {
+  font-size: 12px;
+}
+
+[data-theme="light"] .role {
+  font-size: 14px;
+}
+
+[data-theme="light"] .bio {
+  font-size: 12px;
 }

@@ -51,6 +51,7 @@ export const Hero = ({ children }) => {
   // libre, nunca tape el header ni se solape "hacia atrás".
   const isTeam = pathname === "/equipo";
   const imagesRef = useRef(null);
+  const introRef = useRef(null);
   // Posición continua del carrusel, en "número de imagen" (ej. 3.4 =
   // un 40% entre la imagen 3 y la 4) — NO en píxeles. Así, al cambiar
   // de tema (donde el tamaño de cada imagen cambia mucho), la posición
@@ -58,6 +59,14 @@ export const Hero = ({ children }) => {
   // cuántos píxeles ocupa cada unidad de índice.
   const indexRef = useRef(0);
   const rafRef = useRef(null);
+
+  // .intro no se desmonta al navegar (solo cambia el children dentro),
+  // así que conserva el scroll de la página anterior — sin esto, si
+  // venías desplazado hacia abajo en Equipo, la siguiente página podía
+  // "arrancar" a mitad de su propio texto en vez de desde el principio.
+  useEffect(() => {
+    introRef.current?.scrollTo(0, 0);
+  }, [pathname]);
 
   useEffect(() => {
     const el = imagesRef.current;
@@ -112,7 +121,7 @@ export const Hero = ({ children }) => {
 
   return (
     <div className={`${styles.page} ${isTeam ? styles.teamMode : ""}`}>
-      <div className={styles.intro}>{children}</div>
+      <div className={styles.intro} ref={introRef}>{children}</div>
 
       {/* Vector de fondo desactivado de momento — descomentar para volver a mostrarlo.
       <div className={styles.vector}>

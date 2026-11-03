@@ -65,7 +65,10 @@
   border-radius: 4px;
   background-color: var(--background);
   transform: translateX(0);
-  transition: transform 0.3s ease, background-color 0.4s ease;
+  /* Sin transición de color, mismo motivo que en el header: el track
+     ya cambia de golpe con el barrido, el círculo tiene que ir a la
+     par y no quedarse pasando por grises intermedios. */
+  transition: transform 0.3s ease;
 }
 
 .switch[data-checked="true"] .thumb {
