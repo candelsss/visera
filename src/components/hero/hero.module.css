@@ -1,3 +1,16 @@
+/* --img-h es una variable CSS normal (sin tipar), con un calc/min/clamp
+   bastante anidado dentro. Sin esto, cuando cambia de tema, cualquier
+   "transition" que dependa de ella (el padding-bottom/top de .intro)
+   se queda congelada a medio camino para siempre en vez de animar —
+   bug conocido de los navegadores con transiciones sobre calc(var())
+   sin tipar. @property la registra como <length> para que SÍ se pueda
+   interpolar correctamente. */
+@property --img-h {
+  syntax: "<length>";
+  inherits: true;
+  initial-value: 330px;
+}
+
 .page {
   display: flex;
   flex: 1;

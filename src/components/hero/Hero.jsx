@@ -72,22 +72,35 @@ export const Hero = ({ children }) => {
     const el = imagesRef.current;
     if (!el) return;
 
-    const getMetrics = () => {
+    // imgWidth/step se cachean aquí y solo se recalculan cuando el
+    // tamaño realmente cambia (ResizeObserver), NUNCA en cada frame:
+    // getBoundingClientRect/getComputedStyle fuerzan un recálculo de
+    // layout síncrono, y haciéndolo 60+ veces por segundo para
+    // siempre se nota tanto en el scroll táctil del móvil (el hilo
+    // principal no tiene hueco para atenderlo) como en otras
+    // transiciones CSS que dependen de las mismas variables (se podían
+    // quedar congeladas a medio camino al cambiar de tema).
+    const metrics = { imgWidth: 0, step: 0 };
+
+    const updateMetrics = () => {
       const first = el.children[0];
+      if (!first) return;
       const imgWidth = first.getBoundingClientRect().width;
       const gap = parseFloat(getComputedStyle(el).columnGap) || 0;
-      return { imgWidth, step: imgWidth + gap };
+      metrics.imgWidth = imgWidth;
+      metrics.step = imgWidth + gap;
+      paint();
     };
 
     const paint = () => {
-      const { imgWidth, step } = getMetrics();
+      if (!metrics.step) return;
       // Se centra siempre sobre la copia del MEDIO de las tres que se
       // renderizan (ver más abajo), nunca sobre la primera: así hay
       // siempre una copia entera de sobra a cada lado, y no se ve
       // ningún hueco vacío al principio ni cada vez que da la vuelta.
       const displayIndex = projects.length + indexRef.current;
       const offset =
-        el.clientWidth / 2 - imgWidth / 2 - displayIndex * step;
+        el.clientWidth / 2 - metrics.imgWidth / 2 - displayIndex * metrics.step;
       el.style.transform = `translateX(${offset}px)`;
     };
 
@@ -102,19 +115,26 @@ export const Hero = ({ children }) => {
       const dt = (ts - lastTs) / 1000;
       lastTs = ts;
 
-      const { step } = getMetrics();
-      indexRef.current += (SPEED * dt) / step;
-      if (indexRef.current >= projects.length) {
-        indexRef.current -= projects.length;
+      if (metrics.step) {
+        indexRef.current += (SPEED * dt) / metrics.step;
+        if (indexRef.current >= projects.length) {
+          indexRef.current -= projects.length;
+        }
+        paint();
       }
-
-      paint();
       rafRef.current = requestAnimationFrame(tick);
     };
 
-    paint(); // posición inicial, antes del primer fotograma
+    // ResizeObserver: recalcula cuando cambia el tamaño real de la
+    // imagen (resize de ventana, o el propio --img-h al cambiar de
+    // tema/página, que anima width/height con transición).
+    const ro = new ResizeObserver(updateMetrics);
+    ro.observe(el.children[0]);
+
+    updateMetrics(); // posición inicial, antes del primer fotograma
     rafRef.current = requestAnimationFrame(tick);
     return () => {
+      ro.disconnect();
       if (rafRef.current) cancelAnimationFrame(rafRef.current);
     };
   }, []);

@@ -1,4 +1,3 @@
-import { IntroP } from "@/components/hero/Hero";
 import style from "./page.module.css";
 
 const TEAM = [
@@ -24,7 +23,7 @@ export default function Equipo() {
     <>
       <h1 className={style.srOnly}>Equipo | Visera</h1>
 
-      <IntroP>Debajo de la visera.</IntroP>
+      <p className={style.pageIntro}>Debajo de la visera.</p>
 
       <div className={style.team}>
         {TEAM.map(({ name, role, bio }) => (
