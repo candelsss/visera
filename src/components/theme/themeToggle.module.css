@@ -12,13 +12,11 @@
      Esta es la capa de ABAJO, fija en el color de antes del cambio
      (--foreground-prev) — la cubre .switchSweep bajando de arriba a
      abajo con el color nuevo, igual que en la barra del header. */
-  border: 1px solid var(--background);
   border-radius: 8px;
   background-color: var(--foreground-prev);
   box-sizing: border-box;
   cursor: pointer;
   flex-shrink: 0;
-  transition: border-color 0.4s ease;
 }
 
 .switchSweep {
