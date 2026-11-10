@@ -104,6 +104,96 @@ export const Hero = ({ children }) => {
       el.style.transform = `translateX(${offset}px)`;
     };
 
+    // --- Arrastre (dedo o ratón), con inercia -------------------------
+    // Un único "velocityRef" (px/s) gobierna el movimiento siempre: en
+    // reposo vale SPEED (el autoplay normal). Al arrastrar, se ignora
+    // y la posición sigue al puntero 1:1. Al soltar, se fija a la
+    // velocidad real del gesto (fuerte si se empuja fuerte) y cada
+    // frame se acerca un poco más a SPEED — así no hay un "párate" y
+    // "arranca" distintos, todo es la misma curva continua.
+    const velocityRef = { current: SPEED };
+    const DECAY_RATE = 2.5; // cuanto más alto, antes vuelve a la velocidad normal
+    const DIRECTION_LOCK_PX = 6; // umbral para decidir "esto es horizontal"
+
+    let dragging = false; // ya se confirmó que el gesto es horizontal
+    let locked = false; // ya se decidió horizontal/vertical (true en ambos casos)
+    let pointerId = null;
+    let startX = 0;
+    let startY = 0;
+    let lastX = 0;
+    let lastT = 0;
+
+    const onPointerDown = (e) => {
+      if (pointerId != null) return; // ya hay un dedo/puntero activo
+      pointerId = e.pointerId;
+      dragging = false;
+      locked = false;
+      startX = lastX = e.clientX;
+      startY = e.clientY;
+      lastT = performance.now();
+    };
+
+    const onPointerMove = (e) => {
+      if (e.pointerId !== pointerId) return;
+
+      if (!locked) {
+        const dx = e.clientX - startX;
+        const dy = e.clientY - startY;
+        if (Math.abs(dx) < DIRECTION_LOCK_PX && Math.abs(dy) < DIRECTION_LOCK_PX) {
+          return; // todavía no está claro hacia dónde va el gesto
+        }
+        locked = true;
+        if (Math.abs(dx) > Math.abs(dy)) {
+          // Es horizontal: lo reclama el carrusel.
+          dragging = true;
+          try {
+            el.setPointerCapture(pointerId);
+          } catch {}
+          el.style.cursor = "grabbing";
+        }
+        // Si es vertical, no hacemos nada más: que el scroll de la
+        // página (detrás) lo gestione el navegador con normalidad.
+      }
+
+      if (!dragging) return;
+      e.preventDefault();
+
+      const now = performance.now();
+      const dx = e.clientX - lastX;
+      const dt = Math.max(1, now - lastT) / 1000;
+      lastX = e.clientX;
+      lastT = now;
+
+      if (metrics.step) {
+        indexRef.current -= dx / metrics.step;
+        paint();
+      }
+      // Velocidad instantánea del gesto, suavizada un poco para que un
+      // único frame con ruido no decida solo la inercia final.
+      const instant = -dx / dt;
+      velocityRef.current = velocityRef.current * 0.7 + instant * 0.3;
+    };
+
+    const endDrag = (e) => {
+      if (e.pointerId !== pointerId) return;
+      if (dragging) {
+        try {
+          el.releasePointerCapture(pointerId);
+        } catch {}
+        el.style.cursor = "grab";
+      }
+      pointerId = null;
+      dragging = false;
+      locked = false;
+      // velocityRef.current ya trae la velocidad del último gesto — el
+      // tick de abajo la acerca solo, con el tiempo, a SPEED otra vez.
+    };
+
+    el.addEventListener("pointerdown", onPointerDown);
+    el.addEventListener("pointermove", onPointerMove);
+    el.addEventListener("pointerup", endDrag);
+    el.addEventListener("pointercancel", endDrag);
+
     // Carrusel automático e infinito, en claro y en oscuro. La lista
     // de imágenes está triplicada (ver el render más abajo), así que
     // al recorrer exactamente un set completo (6 imágenes) y volver a
@@ -116,9 +206,19 @@ export const Hero = ({ children }) => {
       lastTs = ts;
 
       if (metrics.step) {
-        indexRef.current += (SPEED * dt) / metrics.step;
+        if (!dragging) {
+          // Acerca la velocidad actual (la del empujón, si lo hubo) a
+          // la velocidad normal del autoplay — cuanto más fuerte se
+          // soltó, más tarda en asentarse, pero siempre de forma
+          // continua, nunca con un salto.
+          velocityRef.current =
+            SPEED + (velocityRef.current - SPEED) * Math.exp(-dt * DECAY_RATE);
+          indexRef.current += (velocityRef.current * dt) / metrics.step;
+        }
         if (indexRef.current >= projects.length) {
           indexRef.current -= projects.length;
+        } else if (indexRef.current < 0) {
+          indexRef.current += projects.length;
         }
         paint();
       }
@@ -132,10 +232,15 @@ export const Hero = ({ children }) => {
     ro.observe(el.children[0]);
 
     updateMetrics(); // posición inicial, antes del primer fotograma
+    el.style.cursor = "grab";
     rafRef.current = requestAnimationFrame(tick);
     return () => {
       ro.disconnect();
       if (rafRef.current) cancelAnimationFrame(rafRef.current);
+      el.removeEventListener("pointerdown", onPointerDown);
+      el.removeEventListener("pointermove", onPointerMove);
+      el.removeEventListener("pointerup", endDrag);
+      el.removeEventListener("pointercancel", endDrag);
     };
   }, []);
 
@@ -158,6 +263,7 @@ export const Hero = ({ children }) => {
               alt={project.title}
               width={303}
               height={512}
+              draggable={false}
               style={{ objectPosition: project.objectPosition || "center" }}
             />
           </div>
