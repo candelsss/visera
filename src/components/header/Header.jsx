@@ -5,16 +5,19 @@ import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { ThemeToggle } from "@/components/theme/ThemeToggle";
 import { useThemeSweep } from "@/components/theme/ThemeProvider";
+import { useLanguage } from "@/components/language/LanguageProvider";
+import { nav } from "@/content/translations";
 import styles from "./header.module.css";
 
 const NAV_LINKS = [
-  { href: "/", label: "Visera." },
-  { href: "/servicios", label: "Servicios" },
-  { href: "/equipo", label: "Equipo" },
+  { href: "/", label: { es: "Visera.", en: "Visera." } },
+  { href: "/servicios", label: nav.servicios },
+  { href: "/equipo", label: nav.equipo },
 ];
 
 export const Header = () => {
   const pathname = usePathname();
+  const { lang } = useLanguage();
   const { tick: sweepTick, anchor: sweepAnchor } = useThemeSweep();
   const linkRefs = useRef([]);
   // Posición/ancho de la píldora activa, en píxeles reales dentro del
@@ -69,7 +72,7 @@ export const Header = () => {
               }}
               className={`${styles.link} ${isActive ? styles.linkActive : ""}`}
             >
-              {label}
+              {label[lang]}
             </Link>
           );
         })}

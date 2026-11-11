@@ -3,6 +3,7 @@
 import styles from './footer.module.css';
 import Link from 'next/link';
 import { useLanguage } from '@/components/language/LanguageProvider';
+import { footer } from '@/content/translations';
 
 export const Footer = () => {
   const { lang, toggleLang } = useLanguage();
@@ -19,7 +20,7 @@ export const Footer = () => {
       </button>
       <div className={styles.links}>
         <Link href="https://www.instagram.com/viseraestudio/" target="_blank">[instagram]</Link>
-        <a href="mailto:hola@viseraestudio.es">[correo]</a>
+        <a href="mailto:hola@viseraestudio.es">{footer.correo[lang]}</a>
       </div>
     </footer>
   );

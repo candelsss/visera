@@ -2,6 +2,15 @@
 // versión en inglés (ver TODO) se queda en español hasta que lo envíe
 // — no se inventa copy de marketing aquí.
 
+export const nav = {
+  servicios: { es: "Servicios", en: "Services" },
+  equipo: { es: "Equipo", en: "Team" },
+};
+
+export const footer = {
+  correo: { es: "[correo]", en: "[email]" },
+};
+
 export const home = {
   es: [
     "Visera es un estudio creativo independiente con la misión de aportar valor real y tangible a las marcas a través de ideas frescas, diseños que conectan y campañas que impactan.",
