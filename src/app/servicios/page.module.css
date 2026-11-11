@@ -4,6 +4,7 @@
     font-weight: 400;
     margin-bottom: 0.5rem;
     transition: font-size 0.4s ease;
+    opacity:0.3;
 }
 
 [data-theme="light"] .pageIntro {
@@ -13,7 +14,8 @@
 .servicios-grid{
     display:flex;
     flex-direction: column;
-    gap: 2rem;
+    gap: 1rem;
+    margin-top: 0.4rem;
 }
 
 .name{
@@ -40,16 +42,27 @@
 
 .description{
     font-size: 1.4rem;
+    line-height: 1.04;
+    font-weight: 400;
+    white-space: pre-line;
+    transition: font-size 0.4s ease;
+
+}
+
+.subDescription{
+    font-size: 1.4rem;
     line-height: 1;
     font-weight: 400;
     white-space: pre-line;
     transition: font-size 0.4s ease;
+    opacity:0.6;
 }
 
 .services{
     font-size: 1rem;
     color: var(--foreground);
     transition: font-size 0.4s ease;
+    line-height: 1.1;
 }
 
 [data-theme="light"] .name {
@@ -57,6 +70,10 @@
 }
 
 [data-theme="light"] .description {
+    font-size: 14px;
+}
+
+[data-theme="light"] .subDescription {
     font-size: 14px;
 }
 

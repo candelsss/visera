@@ -6,33 +6,32 @@ import styles from "./hero.module.css";
 
 const projects = [
   {
-    title: "",
-    image: "/img/visera-project-1.png",
+    title: "Spanish Mafia",
+    image: "/img/direccion-arte-spanish-mafia.webp",
+  },
+  {
+    title: "José y María",
+    image: "/img/evento-peluqueria-jose-maria.webp",
   },
   {
     title: "Spanish Mafia",
-    image: "/img/visera-project-2.png",
-  },
-  {
-    title: "una vioska.",
-    image: "/img/visera-project-3.png",
-  },
-  {
-    title: "La Mesita",
-    image: "/img/visera-project-4.png",
+    image: "/img/identidad-visual-spanish-mafia.webp",
   },
   {
     title: "LITERAL",
-    image: "/img/visera-project-5.png",
+    image: "/img/literal-identidad-visual.webp",
   },
   {
-    title: "una vioska",
-    image: "/img/visera-project-6.png",
+    title: "Rook Prods",
+    image: "/img/visera-estudio-creativo-rook-prods.webp",
   },
-
   {
-    title: "una vioska. 2",
-    image: "/img/visera-project-7.png",
+    title: "La Ruta",
+    image: "/img/visera-identidad-spanish-mafia.webp",
+  },
+  {
+    title: "La Candelaria",
+    image: "/img/visera-identidad-visual-la-candelaria.webp",
   },
 ];
 

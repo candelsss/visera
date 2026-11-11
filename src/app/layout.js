@@ -1,6 +1,7 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import { Header } from "@/components/header/Header";
 import { ThemeProvider } from "@/components/theme/ThemeProvider";
+import { LanguageProvider } from "@/components/language/LanguageProvider";
 import { Hero } from "@/components/hero/Hero";
 import "./globals.css";
 import { Footer } from "@/components/footer/Footer";
@@ -106,13 +107,11 @@ export const metadata = {
     images: ["/img/visera-estudio-creativo.webp"], // mismo archivo que openGraph.images
   },
 
-  // TODO (cliente): favicon definitivo. De momento usa el que ya hay
-  // en src/app/favicon.ico (el de por defecto de Next.js) — cuando
-  // llegue el nuevo, basta con sustituir ese archivo por el real
-  // (o añadir aquí rutas a /public/favicon-32x32.png, apple-touch-icon.png, etc.)
+  // Favicon definitivo en SVG — el archivo real vive en
+  // public/favicon.svg (sustituir ahí si se quiere cambiar el diseño).
   icons: {
-    icon: "/favicon.ico",
-    shortcut: "/favicon.ico",
+    icon: { url: "/visera-favicon-1.svg", type: "image/svg+xml" },
+    shortcut: { url: "/visera-favicon-1.svg", type: "image/svg+xml" },
     // apple: "/apple-touch-icon.png",
   },
 };
@@ -150,7 +149,7 @@ export default function RootLayout({ children }) {
                 url: SITE_URL,
                 logo: `${SITE_URL}/img/vector.webp`,
                 sameAs: [
-                  "https://www.instagram.com/viseravisera/",
+                  "https://www.instagram.com/viseraestudio/",
                 ],
               }),
             }}
@@ -159,9 +158,11 @@ export default function RootLayout({ children }) {
       </head>
       <body>
         <ThemeProvider>
-          <Header />
-          <Hero>{children}</Hero>
-          <Footer />
+          <LanguageProvider>
+            <Header />
+            <Hero>{children}</Hero>
+            <Footer />
+          </LanguageProvider>
         </ThemeProvider>
       </body>
     </html>
