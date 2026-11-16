@@ -128,6 +128,26 @@
   }
 }
 
+/* Modo claro: las fotos son mucho más grandes (ver --img-h arriba) y
+   con el mismo criterio de arriba (padding-top = alto del slider)
+   casi no quedaba texto visible sin hacer scroll — aquí se invierte:
+   el texto arranca ya pegado al header, por detrás de las fotos
+   (asomando entre sus huecos, el mismo cruce que se ve en la
+   transición al cambiar a Servicios/Home), y el hueco grande pasa al
+   padding-bottom para poder scrollearlo entero hacia arriba y sacarlo
+   por el otro lado. El tamaño de las fotos no cambia, solo CUÁNDO se
+   empieza a ver el texto por detrás de ellas. */
+[data-theme="light"] .teamMode .intro {
+  padding-top: calc(var(--header-h) + 1rem);
+  padding-bottom: calc(var(--img-h) + 3rem);
+}
+
+@media (max-width: 640px) {
+  [data-theme="light"] .teamMode .intro {
+    padding-bottom: calc(var(--img-h) + 5rem + env(safe-area-inset-bottom, 0px));
+  }
+}
+
 .introP {
   font-size: 1.2rem;
   line-height: 1.1;
