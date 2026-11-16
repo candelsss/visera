@@ -23,8 +23,8 @@ const projects = [
   },
   {
     title: "Spanish Mafia",
-    image: "/img/shpanish-mafia-imagen.webp",
-    width: 303,
+    image: "/img/visera-estudiocreativo-spanish.png",
+    width: 606,
     height: 512,
   },
   {
@@ -41,9 +41,9 @@ const projects = [
   },
   {
     title: "Rook Prods",
-    image: "/img/rock-prods-identidad-visual.webp",
-    width: 606,
-    height: 512,
+    image: "/img/06Visera-EstudioCreativo-Rookprods.png",
+    width: 2600,
+    height: 2200,
   },
   {
     title: "La Candelaria",
