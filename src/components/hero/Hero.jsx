@@ -28,6 +28,12 @@ const projects = [
     height: 512,
   },
   {
+    title: "La Mesita",
+    image: "/img/la-mesita-ultramarinos.webp",
+    width: 606,
+    height: 512,
+  },
+  {
     title: "LITERAL",
     image: "/img/literal-identidad-visual.gif",
     width: 303,
@@ -36,12 +42,6 @@ const projects = [
   {
     title: "Rook Prods",
     image: "/img/rock-prods-identidad-visual.webp",
-    width: 606,
-    height: 512,
-  },
-  {
-    title: "La Mesita",
-    image: "/img/la-mesita-ultramarinos.webp",
     width: 606,
     height: 512,
   },
