@@ -32,9 +32,14 @@
 }
 
 [data-theme="light"] .page {
-  /* 90px = hueco para el header + un par de líneas de texto.
-     60px = hueco para el footer (position: fixed, no cuenta en el flujo). */
-  --img-h: min(clamp(1000px, 6.47vw + 975.74px, 1100px), calc(100dvh - 120px));
+  /* 120px = hueco para el header + un par de líneas de texto (90px)
+     + el footer (60px) en Home/Servicios. En Equipo el slider va
+     arriba y encima tiene que despejar el propio header flotante, así
+     que con el mismo margen casi no quedaba texto visible por detrás
+     — se sube a 180px (mismo margen para TODAS las páginas en modo
+     claro, para que las fotos sigan midiendo igual en todas) para que
+     en Equipo quede un hueco de texto comparable al de las demás. */
+  --img-h: min(clamp(1000px, 6.47vw + 975.74px, 1100px), calc(100dvh - 180px));
 }
 
 
@@ -125,26 +130,6 @@
     /* Más margen todavía en mobile: el equipo son varias líneas y el
        footer + el "home indicator" se comen más hueco relativo. */
     padding-bottom: calc(5rem + env(safe-area-inset-bottom, 0px));
-  }
-}
-
-/* Modo claro: las fotos son mucho más grandes (ver --img-h arriba) y
-   con el mismo criterio de arriba (padding-top = alto del slider)
-   casi no quedaba texto visible sin hacer scroll — aquí se invierte:
-   el texto arranca ya pegado al header, por detrás de las fotos
-   (asomando entre sus huecos, el mismo cruce que se ve en la
-   transición al cambiar a Servicios/Home), y el hueco grande pasa al
-   padding-bottom para poder scrollearlo entero hacia arriba y sacarlo
-   por el otro lado. El tamaño de las fotos no cambia, solo CUÁNDO se
-   empieza a ver el texto por detrás de ellas. */
-[data-theme="light"] .teamMode .intro {
-  padding-top: calc(var(--header-h) + 1rem);
-  padding-bottom: calc(var(--img-h) + 3rem);
-}
-
-@media (max-width: 640px) {
-  [data-theme="light"] .teamMode .intro {
-    padding-bottom: calc(var(--img-h) + 5rem + env(safe-area-inset-bottom, 0px));
   }
 }
 
