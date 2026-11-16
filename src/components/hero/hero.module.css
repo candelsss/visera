@@ -175,13 +175,15 @@
 
 .imagesContainer{
   /* El ancho ya NO tiene su propia fórmula: sale directamente de
-     --img-h multiplicado por la proporción exacta de las fotos
-     (303x512px = 0.591796875). Así, pase lo que pase con la altura
-     (el clamp normal o el límite de pantalla en --img-h de modo
-     claro), el ancho la sigue siempre y la proporción nunca se
-     rompe. */
+     --img-h multiplicado por el ratio REAL de cada foto (--aspect,
+     puesto inline por cada imagen en Hero.jsx: width/height del
+     archivo). Así cada recuadro tiene exactamente la forma de su
+     imagen — ni se recorta, ni deja hueco vacío — sean verticales
+     (como antes) o apaisadas (las nuevas), y pase lo que pase con la
+     altura (el clamp normal o el límite de pantalla en modo claro),
+     el ancho la sigue siempre. */
   height: var(--img-h);
-  width: calc(var(--img-h) * 0.591796875);
+  width: calc(var(--img-h) * var(--aspect, 0.591796875));
   flex-shrink: 0;
   transition: width 0.7s ease, height 0.7s ease;
 }

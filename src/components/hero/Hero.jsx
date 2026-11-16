@@ -4,34 +4,52 @@ import { useEffect, useRef } from "react";
 import { usePathname } from "next/navigation";
 import styles from "./hero.module.css";
 
+// width/height son las dimensiones REALES del archivo — con ellas se
+// calcula el ratio de cada recuadro (ver .imagesContainer), así cada
+// imagen se ve entera y a tamaño completo, sin recortarse ni dejar
+// hueco vacío, sea vertical (como antes) u horizontal (las nuevas).
 const projects = [
   {
     title: "Spanish Mafia",
-    image: "/img/direccion-arte-spanish-mafia.webp",
+    image: "/img/spanish-mafia.webp",
+    width: 303,
+    height: 512,
   },
   {
     title: "José y María",
-    image: "/img/evento-peluqueria-jose-maria.webp",
+    image: "/img/peluqueria-jose-maria.webp",
+    width: 606,
+    height: 512,
   },
   {
     title: "Spanish Mafia",
-    image: "/img/identidad-visual-spanish-mafia.webp",
+    image: "/img/shpanish-mafia-imagen.webp",
+    width: 303,
+    height: 512,
   },
   {
     title: "LITERAL",
-    image: "/img/literal-identidad-visual.webp",
+    image: "/img/literal-identidad-visual.gif",
+    width: 303,
+    height: 512,
   },
   {
     title: "Rook Prods",
-    image: "/img/visera-estudio-creativo-rook-prods.webp",
+    image: "/img/rock-prods-identidad-visual.webp",
+    width: 606,
+    height: 512,
   },
   {
-    title: "La Ruta",
-    image: "/img/visera-identidad-spanish-mafia.webp",
+    title: "La Mesita",
+    image: "/img/la-mesita-ultramarinos.webp",
+    width: 606,
+    height: 512,
   },
   {
     title: "La Candelaria",
-    image: "/img/visera-identidad-visual-la-candelaria.webp",
+    image: "/img/la-candelaria-catering.webp",
+    width: 606,
+    height: 512,
   },
 ];
 
@@ -51,12 +69,13 @@ export const Hero = ({ children }) => {
   const isTeam = pathname === "/equipo";
   const imagesRef = useRef(null);
   const introRef = useRef(null);
-  // Posición continua del carrusel, en "número de imagen" (ej. 3.4 =
-  // un 40% entre la imagen 3 y la 4) — NO en píxeles. Así, al cambiar
-  // de tema (donde el tamaño de cada imagen cambia mucho), la posición
+  // Posición continua del carrusel, como fracción de una vuelta
+  // completa a la secuencia (0.4 = 40% recorrido) — NO en píxeles.
+  // Así, al cambiar de tema (donde el tamaño de cada imagen cambia
+  // mucho) o al haber imágenes de distinto ancho entre sí, la posición
   // relativa dentro de la secuencia se conserva exacta; solo cambia
-  // cuántos píxeles ocupa cada unidad de índice.
-  const indexRef = useRef(0);
+  // cuántos píxeles ocupa una vuelta completa.
+  const progressRef = useRef(0);
   const rafRef = useRef(null);
 
   // .intro no se desmonta al navegar (solo cambia el children dentro),
@@ -71,35 +90,35 @@ export const Hero = ({ children }) => {
     const el = imagesRef.current;
     if (!el) return;
 
-    // imgWidth/step se cachean aquí y solo se recalculan cuando el
-    // tamaño realmente cambia (ResizeObserver), NUNCA en cada frame:
-    // getBoundingClientRect/getComputedStyle fuerzan un recálculo de
-    // layout síncrono, y haciéndolo 60+ veces por segundo para
-    // siempre se nota tanto en el scroll táctil del móvil (el hilo
-    // principal no tiene hueco para atenderlo) como en otras
-    // transiciones CSS que dependen de las mismas variables (se podían
-    // quedar congeladas a medio camino al cambiar de tema).
-    const metrics = { imgWidth: 0, step: 0 };
+    // totalWidth (el ancho en píxeles de UNA vuelta completa a la
+    // secuencia) se cachea aquí y solo se recalcula cuando el tamaño
+    // realmente cambia (ResizeObserver), NUNCA en cada frame: leer
+    // scrollWidth fuerza un recálculo de layout síncrono, y haciéndolo
+    // 60+ veces por segundo se nota tanto en el scroll táctil del
+    // móvil (el hilo principal no tiene hueco para atenderlo) como en
+    // otras transiciones CSS que dependen de las mismas variables (se
+    // podían quedar congeladas a medio camino al cambiar de tema).
+    // Al venir de el.scrollWidth no hace falta que las imágenes tengan
+    // todas el mismo ancho: cada una ocupa el suyo según su propio
+    // ratio (ver hero.module.css .imagesContainer) y aun así se puede
+    // dividir entre 3 porque la secuencia está triplicada exacta.
+    const metrics = { totalWidth: 0 };
 
     const updateMetrics = () => {
-      const first = el.children[0];
-      if (!first) return;
-      const imgWidth = first.getBoundingClientRect().width;
-      const gap = parseFloat(getComputedStyle(el).columnGap) || 0;
-      metrics.imgWidth = imgWidth;
-      metrics.step = imgWidth + gap;
+      if (!el.children.length) return;
+      metrics.totalWidth = el.scrollWidth / 3;
       paint();
     };
 
     const paint = () => {
-      if (!metrics.step) return;
+      if (!metrics.totalWidth) return;
       // Se centra siempre sobre la copia del MEDIO de las tres que se
       // renderizan (ver más abajo), nunca sobre la primera: así hay
       // siempre una copia entera de sobra a cada lado, y no se ve
       // ningún hueco vacío al principio ni cada vez que da la vuelta.
-      const displayIndex = projects.length + indexRef.current;
       const offset =
-        el.clientWidth / 2 - metrics.imgWidth / 2 - displayIndex * metrics.step;
+        el.clientWidth / 2 -
+        metrics.totalWidth * (1 + progressRef.current);
       el.style.transform = `translateX(${offset}px)`;
     };
 
@@ -163,8 +182,8 @@ export const Hero = ({ children }) => {
       lastX = e.clientX;
       lastT = now;
 
-      if (metrics.step) {
-        indexRef.current -= dx / metrics.step;
+      if (metrics.totalWidth) {
+        progressRef.current -= dx / metrics.totalWidth;
         paint();
       }
       // Velocidad instantánea del gesto, suavizada un poco para que un
@@ -204,7 +223,7 @@ export const Hero = ({ children }) => {
       const dt = (ts - lastTs) / 1000;
       lastTs = ts;
 
-      if (metrics.step) {
+      if (metrics.totalWidth) {
         if (!dragging) {
           // Acerca la velocidad actual (la del empujón, si lo hubo) a
           // la velocidad normal del autoplay — cuanto más fuerte se
@@ -212,12 +231,12 @@ export const Hero = ({ children }) => {
           // continua, nunca con un salto.
           velocityRef.current =
             SPEED + (velocityRef.current - SPEED) * Math.exp(-dt * DECAY_RATE);
-          indexRef.current += (velocityRef.current * dt) / metrics.step;
+          progressRef.current += (velocityRef.current * dt) / metrics.totalWidth;
         }
-        if (indexRef.current >= projects.length) {
-          indexRef.current -= projects.length;
-        } else if (indexRef.current < 0) {
-          indexRef.current += projects.length;
+        if (progressRef.current >= 1) {
+          progressRef.current -= 1;
+        } else if (progressRef.current < 0) {
+          progressRef.current += 1;
         }
         paint();
       }
@@ -255,15 +274,18 @@ export const Hero = ({ children }) => {
 
       <div className={styles.images} ref={imagesRef}>
         {[...projects, ...projects, ...projects].map((project, i) => (
-          <div key={`${project.title}-${i}`} className={styles.imagesContainer}>
+          <div
+            key={`${project.title}-${i}`}
+            className={styles.imagesContainer}
+            style={{ "--aspect": project.width / project.height }}
+          >
             <img
               className={styles.img}
               src={project.image}
               alt={project.title}
-              width={303}
-              height={512}
+              width={project.width}
+              height={project.height}
               draggable={false}
-              style={{ objectPosition: project.objectPosition || "center" }}
             />
           </div>
         ))}
